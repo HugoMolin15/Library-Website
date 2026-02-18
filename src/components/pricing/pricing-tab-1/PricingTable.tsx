@@ -21,7 +21,7 @@ export interface Plan {
 }
 
 interface PricingTableProps {
-    plans: Plan[]
+    plans?: Plan[]
 }
 
 const PricingTable: React.FC<PricingTableProps> = ({

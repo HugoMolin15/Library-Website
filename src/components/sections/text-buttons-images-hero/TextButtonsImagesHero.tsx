@@ -20,11 +20,11 @@ interface ActionProps {
 }
 
 interface HeroSectionProps {
-    title: React.ReactNode;
-    subtitle: string;
-    actions: ActionProps[];
-    stats: StatProps[];
-    images: string[];
+    title?: React.ReactNode;
+    subtitle?: string;
+    actions?: ActionProps[];
+    stats?: StatProps[];
+    images?: string[];
     className?: string;
 }
 
