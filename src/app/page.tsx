@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Layout, Box, Zap, Sparkles, Database, Shield, CreditCard, PanelsTopLeft, MousePointer2 } from 'lucide-react';
 
 const sidebarConfig = [
@@ -17,7 +17,6 @@ const sidebarConfig = [
             { title: "Hero 3", href: "/hero-3" },
             { title: "Hero 4", href: "/hero-4" },
             { title: "Hero 5", href: "/hero-5" },
-            { title: "Neural Defense", href: "/neural-defense" },
         ],
     },
     {
@@ -33,7 +32,7 @@ const sidebarConfig = [
         ],
     },
     {
-        title: "Features",
+        title: "Sections",
         icon: Box,
         items: [
             { title: "Feature 1", href: "/feature-1" },
@@ -44,6 +43,7 @@ const sidebarConfig = [
             { title: "Left Image Text", href: "/left-image-text" },
             { title: "Right Image Text", href: "/right-image-text" },
             { title: "Horizontal Text Image", href: "/horizontal-text-image" },
+            { title: "Neural Defense", href: "/neural-defense" },
         ],
     },
     {
@@ -97,108 +97,124 @@ const sidebarConfig = [
 ];
 
 export default function Home() {
+    const [activeTab, setActiveTab] = React.useState('All');
+
+    const filteredSections = activeTab === 'All'
+        ? sidebarConfig
+        : sidebarConfig.filter(section => section.title === activeTab);
+
+    const allCount = sidebarConfig.reduce((acc, section) => acc + section.items.length, 0);
+    const tabs = [
+        { name: 'All', count: allCount },
+        ...sidebarConfig.map(s => ({ name: s.title, count: s.items.length }))
+    ];
+
     return (
-        <div className="space-y-24 pb-20 mt-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            {/* Hero Section */}
-            <section className="space-y-8 max-w-4xl">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 mb-4">
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-                    </span>
-                    <span className="text-[10px] font-bold text-purple-600 uppercase tracking-widest px-1">Luma Premium UI Kit</span>
+        <div className="space-y-12 pb-20 mt-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {/* Tab System */}
+            <div className="flex flex-wrap justify-center gap-3 py-12 sticky top-0 z-50 bg-white/80 backdrop-blur-xl">
+                <div className="flex flex-wrap items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.name}
+                            onClick={() => setActiveTab(tab.name)}
+                            className={`relative px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors duration-300 flex items-center gap-2.5 cursor-pointer outline-none ${activeTab === tab.name ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'
+                                }`}
+                        >
+                            {activeTab === tab.name && (
+                                <motion.div
+                                    layoutId="active-pill"
+                                    className="absolute inset-0 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)]"
+                                    transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                                />
+                            )}
+                            <span className="relative z-10">{tab.name}</span>
+                            <span className={`relative z-10 px-2 py-0.5 rounded-md text-[10px] tabular-nums transition-colors ${activeTab === tab.name ? 'bg-purple-50 text-purple-600' : 'bg-slate-200/40 text-slate-500'
+                                }`}>
+                                {tab.count}
+                            </span>
+                        </button>
+                    ))}
                 </div>
-                <h1 className="text-7xl font-black tracking-tighter text-slate-900 leading-[0.9] uppercase italic">
-                    The Next <br />
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600">
-                        Design Frontier.
-                    </span>
-                </h1>
-                <p className="text-xl text-slate-500 max-w-2xl font-light leading-relaxed italic">
-                    Explore a curated collection of beautiful, high-performance React components. Click any card to preview it in real-time and view the source code.
-                </p>
-            </section>
+            </div>
 
             {/* Component Gallery Groups */}
             <div className="space-y-40 relative">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.03),transparent_50%)] pointer-events-none" />
-                {sidebarConfig.map((section, idx) => (
-                    <section key={idx} className="space-y-12 relative z-10">
-                        <div className="flex items-center gap-6">
-                            <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-2xl shadow-slate-200">
-                                <section.icon size={24} strokeWidth={1.5} />
-                            </div>
-                            <div>
-                                <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter italic leading-none">{section.title}</h2>
-                                <div className="h-1.5 w-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mt-3" />
-                            </div>
-                        </div>
+                <AnimatePresence mode="popLayout">
+                    <motion.div layout className="space-y-40">
+                        {filteredSections.map((section) => (
+                            <motion.section
+                                layout
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.98 }}
+                                transition={{ duration: 0.3 }}
+                                key={section.title}
+                                className="space-y-12 relative z-10"
+                            >
+                                <div className="flex items-center gap-6">
+                                    <div className="w-14 h-14 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-2xl shadow-slate-200">
+                                        <section.icon size={24} strokeWidth={1.5} />
+                                    </div>
+                                    <div>
+                                        <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter italic leading-none">{section.title}</h2>
+                                        <div className="h-1.5 w-16 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full mt-3" />
+                                    </div>
+                                </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {section.items.map((item, i) => (
-                                <Link key={i} href={item.href} className="group">
-                                    <motion.div
-                                        whileHover={{ y: -5 }}
-                                        className="relative bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-purple-100/50 hover:border-purple-200 transition-all duration-300 aspect-[16/10] flex flex-col"
-                                    >
-                                        {/* Full Bleed Image Placeholder */}
-                                        <div className="absolute inset-0 bg-slate-50 flex items-center justify-center overflow-hidden group-hover:bg-white transition-colors">
-                                            {item.href === '/grainient' ? (
-                                                <div className="absolute inset-0 bg-gradient-to-r from-[#f9a8d4] via-[#ec4899] via-[#4f46e5] via-[#9333ea] to-[#c084fc] relative">
-                                                    {/* Grain Overlay */}
-                                                    <div className="absolute inset-0 opacity-20 contrast-125 brightness-100 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
-                                                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                    {section.items.map((item, i) => (
+                                        <Link key={i} href={item.href} className="group">
+                                            <motion.div
+                                                className="relative bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-purple-100/50 hover:border-purple-200 transition-all duration-500 aspect-[16/10] flex flex-col"
+                                            >
+                                                {/* Full Bleed Image Placeholder */}
+                                                <div className="absolute inset-0 bg-slate-50 flex items-center justify-center overflow-hidden transition-colors">
+                                                    {item.href === '/grainient' ? (
+                                                        <div className="absolute inset-0 w-full h-full">
+                                                            {/* Local Image Priority */}
+                                                            <img
+                                                                src="/previews/granient.png"
+                                                                alt="Grainient Preview"
+                                                                className="absolute inset-0 w-full h-full object-cover z-10"
+                                                                onError={(e) => (e.currentTarget.style.display = 'none')}
+                                                            />
+                                                            {/* Fallback CSS Gradient */}
+                                                            <div className="absolute inset-0 bg-gradient-to-r from-[#f9a8d4] via-[#ec4899] via-[#4f46e5] via-[#9333ea] to-[#c084fc]">
+                                                                <div className="absolute inset-0 opacity-20 contrast-125 brightness-100 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+                                                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                    )}
+
+                                                    {item.href !== '/grainient' && (
+                                                        <span className="text-slate-200 group-hover:text-purple-100 transition-colors">
+                                                            <MousePointer2 size={64} strokeWidth={1} />
+                                                        </span>
+                                                    )}
                                                 </div>
-                                            ) : (
-                                                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                            )}
 
-                                            {item.href !== '/grainient' && (
-                                                <span className="text-slate-200 group-hover:text-purple-100 transition-colors">
-                                                    <MousePointer2 size={64} strokeWidth={1} />
-                                                </span>
-                                            )}
-
-                                            {/* Action Badge */}
-                                            <div className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
-                                                <span className="text-[10px] font-bold text-purple-600 uppercase tracking-widest">Preview Live</span>
-                                            </div>
-                                        </div>
-
-                                        {/* Glassmorphism Title Overlay at Bottom */}
-                                        <div className="absolute inset-x-0 bottom-0 p-4 z-10 transition-transform translate-y-2 group-hover:translate-y-0 duration-300">
-                                            <div className="bg-white/40 backdrop-blur-xl border border-white/40 rounded-2xl p-4 shadow-lg group-hover:bg-white/60 transition-all">
-                                                <h3 className="text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors uppercase tracking-tight italic text-center">
-                                                    {item.title}
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                </Link>
-                            ))}
-                        </div>
-                    </section>
-                ))}
+                                                {/* Glassmorphism Title Overlay - Expands to full card on hover */}
+                                                <div className="absolute inset-x-0 bottom-0 p-4 z-20 h-full flex items-end group-hover:items-stretch transition-all duration-500">
+                                                    <div className="w-full h-14 group-hover:h-full bg-white/20 group-hover:bg-white/40 backdrop-blur-md group-hover:backdrop-blur-xl border border-white/20 rounded-2xl group-hover:rounded-none transition-all duration-500 flex items-center justify-center overflow-hidden shadow-lg">
+                                                        <h3 className="text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors uppercase tracking-tight italic text-center px-4">
+                                                            {item.title}
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </motion.section>
+                        ))}
+                    </motion.div>
+                </AnimatePresence>
             </div>
 
-            {/* Bottom CTA */}
-            <section className="bg-slate-900 rounded-[40px] p-20 text-white overflow-hidden relative">
-                <div className="relative z-10 text-center max-w-2xl mx-auto space-y-8">
-                    <h2 className="text-4xl font-black tracking-tight italic uppercase">Ready to build something amazing?</h2>
-                    <p className="text-slate-400 font-light text-xl italic">Copy and paste components directly into your project. High-end design, zero maintenance.</p>
-                    <div className="flex justify-center gap-6 pt-4">
-                        <Link href="/aurora" className="px-10 py-4 bg-purple-600 text-white rounded-full font-bold hover:bg-purple-500 transition-all shadow-2xl shadow-purple-500/20 uppercase tracking-widest text-sm italic">
-                            Get Started
-                        </Link>
-                        <a href="#" className="px-10 py-4 bg-white/5 border border-white/10 text-white rounded-full font-bold hover:bg-white/10 transition-all uppercase tracking-widest text-sm italic">
-                            View GitHub
-                        </a>
-                    </div>
-                </div>
-                {/* Decorative Elements */}
-                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-purple-500/20 to-transparent blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-1/2 h-full bg-gradient-to-r from-blue-500/20 to-transparent blur-3xl opacity-50" />
-            </section>
         </div>
     );
 }
