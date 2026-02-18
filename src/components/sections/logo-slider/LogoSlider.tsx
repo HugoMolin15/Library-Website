@@ -1,6 +1,4 @@
-'use client';
-
-import React from 'react';
+import { motion } from 'framer-motion';
 
 const logos = [
     "https://i.ibb.co/Vv5rkDK/api-partner-verzon.png",
@@ -14,50 +12,50 @@ const logos = [
 export function LogoSlider() {
     return (
         <section className="w-full py-24 bg-slate-50 overflow-hidden relative">
-            {/* Premium Edge Fades */}
-            <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none" />
+            {/* Edge Fades */}
+            <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-slate-50 to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-slate-50 to-transparent z-20 pointer-events-none" />
 
-            <div className="flex animate-marquee whitespace-nowrap w-max">
-                <div className="flex items-center gap-32 pr-32">
-                    {logos.map((logo, index) => (
-                        <div key={`logo-1-${index}`} className="flex-shrink-0">
-                            <img
-                                src={logo}
-                                alt="Partner"
-                                className="h-10 md:h-14 w-auto object-contain grayscale opacity-30 contrast-125"
-                            />
-                        </div>
-                    ))}
-                </div>
-                {/* Perfect Duplicate */}
-                <div className="flex items-center gap-32 pr-32">
-                    {logos.map((logo, index) => (
-                        <div key={`logo-2-${index}`} className="flex-shrink-0">
-                            <img
-                                src={logo}
-                                alt="Partner"
-                                className="h-10 md:h-14 w-auto object-contain grayscale opacity-30 contrast-125"
-                            />
-                        </div>
-                    ))}
-                </div>
+            <div className="flex relative">
+                <motion.div
+                    className="flex whitespace-nowrap"
+                    animate={{
+                        x: [0, "-50%"]
+                    }}
+                    transition={{
+                        x: {
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            duration: 30,
+                            ease: "linear",
+                        },
+                    }}
+                >
+                    <div className="flex items-center gap-32 pr-32">
+                        {logos.map((logo, index) => (
+                            <div key={`logo-1-${index}`} className="flex-shrink-0">
+                                <img
+                                    src={logo}
+                                    alt="Partner"
+                                    className="h-10 md:h-14 w-auto object-contain grayscale opacity-30 contrast-125"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    {/* Seamless Duplicate */}
+                    <div className="flex items-center gap-32 pr-32">
+                        {logos.map((logo, index) => (
+                            <div key={`logo-2-${index}`} className="flex-shrink-0">
+                                <img
+                                    src={logo}
+                                    alt="Partner"
+                                    className="h-10 md:h-14 w-auto object-contain grayscale opacity-30 contrast-125"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
             </div>
-
-            <style jsx>{`
-                .animate-marquee {
-                    animation: marquee 30s linear infinite;
-                }
-                
-                @keyframes marquee {
-                    from {
-                        transform: translateX(0);
-                    }
-                    to {
-                        transform: translateX(-50%);
-                    }
-                }
-            `}</style>
         </section>
     );
 }
