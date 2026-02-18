@@ -171,26 +171,28 @@ export default function Home() {
                                             >
                                                 {/* Full Bleed Image Placeholder */}
                                                 <div className="absolute inset-0 bg-slate-50 flex items-center justify-center overflow-hidden transition-colors">
-                                                    {item.href === '/grainient' ? (
+                                                    {item.href === '/grainient' || item.href === '/bento-grid-3' ? (
                                                         <div className="absolute inset-0 w-full h-full">
                                                             {/* Local Image Priority */}
                                                             <img
-                                                                src="/previews/granient.png"
-                                                                alt="Grainient Preview"
+                                                                src={item.href === '/grainient' ? "/previews/granient.png" : "/previews/bento-1.png"}
+                                                                alt={`${item.title} Preview`}
                                                                 className="absolute inset-0 w-full h-full object-cover z-10"
                                                                 onError={(e) => (e.currentTarget.style.display = 'none')}
                                                             />
-                                                            {/* Fallback CSS Gradient */}
-                                                            <div className="absolute inset-0 bg-gradient-to-r from-[#f9a8d4] via-[#ec4899] via-[#4f46e5] via-[#9333ea] to-[#c084fc]">
-                                                                <div className="absolute inset-0 opacity-20 contrast-125 brightness-100 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
-                                                                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-                                                            </div>
+                                                            {/* Fallback CSS Gradient (only for grainient) */}
+                                                            {item.href === '/grainient' && (
+                                                                <div className="absolute inset-0 bg-gradient-to-r from-[#f9a8d4] via-[#ec4899] via-[#4f46e5] via-[#9333ea] to-[#c084fc]">
+                                                                    <div className="absolute inset-0 opacity-20 contrast-125 brightness-100 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+                                                                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     ) : (
                                                         <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                                     )}
 
-                                                    {item.href !== '/grainient' && (
+                                                    {item.href !== '/grainient' && item.href !== '/bento-grid-3' && (
                                                         <span className="text-slate-200 group-hover:text-purple-100 transition-colors">
                                                             <MousePointer2 size={64} strokeWidth={1} />
                                                         </span>
