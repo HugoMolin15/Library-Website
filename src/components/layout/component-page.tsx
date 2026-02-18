@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CodeView } from '@/components/ui/CodeView';
 import Link from 'next/link';
 import { Smartphone, Tablet, Monitor, RotateCcw } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 interface ComponentPageProps {
     title: string;
@@ -161,7 +163,9 @@ function Frame({ children, width, onHeightChange, currentHeight, isCode }: {
     );
 }
 
-export function ComponentPage({ title, description, children, componentPath }: ComponentPageProps) {
+function ComponentPageContent({ title, description, children, componentPath }: ComponentPageProps) {
+    const searchParams = useSearchParams();
+    const fromTab = searchParams.get('from') || 'All';
     const [mounted, setMounted] = useState(false);
     const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
     const [viewportWidth, setViewportWidth] = useState<ViewportWidth>('100%');
@@ -199,7 +203,7 @@ export function ComponentPage({ title, description, children, componentPath }: C
         <div className="w-full">
             <div className="mb-12">
                 <Link
-                    href="/"
+                    href={`/?tab=${encodeURIComponent(fromTab)}`}
                     className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-purple-600 transition-colors mb-6 group"
                 >
                     <span className="group-hover:-translate-x-1 transition-transform">←</span>
@@ -298,5 +302,13 @@ export function ComponentPage({ title, description, children, componentPath }: C
             </div>
 
         </div>
+    );
+}
+
+export function ComponentPage(props: ComponentPageProps) {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-white" />}>
+            <ComponentPageContent {...props} />
+        </Suspense>
     );
 }

@@ -114,8 +114,25 @@ const sidebarConfig = [
     },
 ];
 
-export default function Home() {
-    const [activeTab, setActiveTab] = React.useState('All');
+import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense } from 'react';
+
+function HomeContent() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const initialTab = searchParams.get('tab') || 'All';
+    const [activeTab, setActiveTab] = React.useState(initialTab);
+
+    // Sync state with URL when it changes (for back button support)
+    React.useEffect(() => {
+        const tab = searchParams.get('tab') || 'All';
+        setActiveTab(tab);
+    }, [searchParams]);
+
+    const handleTabChange = (tabName: string) => {
+        setActiveTab(tabName);
+        router.push(`/?tab=${encodeURIComponent(tabName)}`, { scroll: false });
+    };
 
     const filteredSections = activeTab === 'All'
         ? sidebarConfig
@@ -134,7 +151,7 @@ export default function Home() {
                 {tabs.map((tab) => (
                     <button
                         key={tab.name}
-                        onClick={() => setActiveTab(tab.name)}
+                        onClick={() => handleTabChange(tab.name)}
                         className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2.5 cursor-pointer outline-none border ${activeTab === tab.name
                             ? 'bg-slate-900 text-white border-slate-900 shadow-xl shadow-slate-200'
                             : 'bg-white text-slate-400 border-slate-100 hover:border-slate-300 hover:text-slate-600'
@@ -178,7 +195,7 @@ export default function Home() {
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                     {section.items.map((item, i) => (
-                                        <Link key={i} href={item.href} className="group">
+                                        <Link key={i} href={`${item.href}?from=${encodeURIComponent(activeTab)}`} className="group">
                                             <motion.div
                                                 className="relative bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-purple-100/50 hover:border-purple-200 transition-all duration-500 aspect-[16/10] flex flex-col p-3"
                                             >
@@ -231,5 +248,13 @@ export default function Home() {
             </div>
 
         </div>
+    );
+}
+
+export default function Home() {
+    return (
+        <Suspense fallback={<div className="min-h-screen bg-white" />}>
+            <HomeContent />
+        </Suspense>
     );
 }
