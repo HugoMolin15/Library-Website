@@ -139,39 +139,27 @@ export default function Home() {
                                 <Link key={i} href={item.href} className="group">
                                     <motion.div
                                         whileHover={{ y: -5 }}
-                                        className="relative bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-purple-100/50 hover:border-purple-200 transition-all duration-300 h-full flex flex-col"
+                                        className="relative bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-purple-100/50 hover:border-purple-200 transition-all duration-300 aspect-[16/10] flex flex-col"
                                     >
-                                        {/* Image Placeholder */}
-                                        <div className="aspect-[16/10] bg-slate-50 border-b border-slate-50 flex items-center justify-center overflow-hidden relative group-hover:bg-white transition-colors">
+                                        {/* Full Bleed Image Placeholder */}
+                                        <div className="absolute inset-0 bg-slate-50 flex items-center justify-center overflow-hidden group-hover:bg-white transition-colors">
                                             <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                             <span className="text-slate-200 group-hover:text-purple-100 transition-colors">
-                                                <MousePointer2 size={48} strokeWidth={1} />
+                                                <MousePointer2 size={64} strokeWidth={1} />
                                             </span>
 
                                             {/* Action Badge */}
-                                            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
+                                            <div className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
                                                 <span className="text-[10px] font-bold text-purple-600 uppercase tracking-widest">Preview Live</span>
                                             </div>
                                         </div>
 
-                                        {/* Content */}
-                                        <div className="p-6 flex-1 flex flex-col justify-between">
-                                            <div>
-                                                <h3 className="text-lg font-bold text-slate-800 group-hover:text-purple-600 transition-colors uppercase tracking-tight italic">
+                                        {/* Glassmorphism Title Overlay at Bottom */}
+                                        <div className="absolute inset-x-0 bottom-0 p-4 z-10 transition-transform translate-y-2 group-hover:translate-y-0 duration-300">
+                                            <div className="bg-white/40 backdrop-blur-xl border border-white/40 rounded-2xl p-4 shadow-lg group-hover:bg-white/60 transition-all">
+                                                <h3 className="text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors uppercase tracking-tight italic text-center">
                                                     {item.title}
                                                 </h3>
-                                                <p className="text-xs text-slate-400 mt-2 font-light">Interactive component built with Tailwind & Framer Motion.</p>
-                                            </div>
-
-                                            <div className="mt-6 flex items-center justify-between">
-                                                <div className="flex gap-1">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-200" />
-                                                </div>
-                                                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-purple-600 group-hover:text-white transition-all">
-                                                    <Sparkles size={14} />
-                                                </div>
                                             </div>
                                         </div>
                                     </motion.div>

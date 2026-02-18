@@ -21,11 +21,12 @@ type ViewportWidth = '430px' | '840px' | '100%';
  * Enhanced Frame component with robust style syncing and height observation.
  * Optimized to prevent "Infinite Growth" loops.
  */
-function Frame({ children, width, onHeightChange, currentHeight }: {
+function Frame({ children, width, onHeightChange, currentHeight, isCode }: {
     children: React.ReactNode,
     width: string,
     onHeightChange: (h: number) => void,
-    currentHeight: number
+    currentHeight: number,
+    isCode?: boolean
 }) {
     const [contentRef, setContentRef] = useState<HTMLIFrameElement | null>(null);
     const [iframeLoaded, setIframeLoaded] = useState(false);
@@ -43,21 +44,19 @@ function Frame({ children, width, onHeightChange, currentHeight }: {
         // Base Resets - Hiding scrollbars as requested
         const baseStyle = doc.createElement('style');
         baseStyle.innerHTML = `
-            html { height: auto; }
+            html { height: 100%; }
             body { 
                 margin: 0; padding: 0; background: transparent; 
-                overflow-x: hidden; overflow-y: auto; height: auto;
+                overflow-x: hidden; overflow-y: auto; height: 100%;
                 font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
             }
-            #frame-root { width: 100%; height: auto; overflow: hidden; }
+            #frame-root { width: 100%; min-height: 100%; }
             
-            /* Hide scrollbar for Chrome, Safari and Opera */
-            ::-webkit-scrollbar {
+            /* Hide scrollbar for all elements */
+            *::-webkit-scrollbar {
                 display: none;
             }
-
-            /* Hide scrollbar for IE, Edge and Firefox */
-            body {
+            * {
                 -ms-overflow-style: none;  /* IE and Edge */
                 scrollbar-width: none;  /* Firefox */
             }
@@ -136,13 +135,13 @@ function Frame({ children, width, onHeightChange, currentHeight }: {
             <iframe
                 title="preview-frame"
                 ref={setContentRef}
-                className="transition-all duration-500 shadow-2xl rounded-[32px] border-8 border-slate-900 ring-2 ring-slate-200"
+                className="transition-all duration-500 shadow-2xl rounded-[32px] border-8 border-black ring-1 ring-black/10"
                 style={{
                     width: width,
                     height: 'min(850px, 90vh)',
                     maxHeight: '850px',
-                    border: '8px solid #0f172a',
-                    backgroundColor: 'white'
+                    border: '8px solid black',
+                    backgroundColor: isCode ? '#1e1e1e' : 'white'
                 }}
             >
                 {mountNode && iframeLoaded && createPortal(
@@ -226,8 +225,12 @@ export function ComponentPage({ title, description, children, componentPath }: C
                 </div>
 
                 {activeTab === 'preview' && (
-                    <div className="flex items-center gap-2">
-                        <div className="flex items-center bg-slate-100 p-1 rounded-xl mr-4">
+                    <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-mono text-slate-900 font-bold">{viewportWidth}</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Width</span>
+                        </div>
+                        <div className="flex items-center bg-slate-100 p-1 rounded-xl">
                             {[
                                 { icon: Smartphone, width: '430px' as ViewportWidth },
                                 { icon: Tablet, width: '840px' as ViewportWidth },
@@ -242,78 +245,52 @@ export function ComponentPage({ title, description, children, componentPath }: C
                                 </button>
                             ))}
                         </div>
-                        <button
-                            onClick={() => window.location.reload()}
-                            className="p-2 text-slate-400 hover:text-slate-900 transition-colors"
-                            title="Reset Preview"
-                        >
-                            <RotateCcw size={18} />
-                        </button>
                     </div>
                 )}
             </div>
 
-            <div className={`relative ${activeTab === 'preview' ? '' : 'bg-[#1E1E2E] rounded-[32px] border border-slate-100 shadow-sm overflow-hidden p-8'}`}>
-                <AnimatePresence mode="wait">
-                    {activeTab === 'preview' ? (
-                        <motion.div
-                            key="preview"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="w-full"
-                        >
-                            <div className="flex justify-center bg-transparent min-h-[600px]">
-                                <Frame
-                                    width={viewportWidth}
-                                    currentHeight={contentHeight}
-                                    onHeightChange={setContentHeight}
-                                >
-                                    {children}
-                                </Frame>
-                            </div>
+            <div className="relative">
+                <div className="flex justify-center bg-transparent min-h-[600px]">
+                    <Frame
+                        width={activeTab === 'preview' ? viewportWidth : '100%'}
+                        currentHeight={contentHeight}
+                        onHeightChange={setContentHeight}
+                        isCode={activeTab === 'code'}
+                    >
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={activeTab}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                                className="w-full h-full"
+                            >
+                                {activeTab === 'preview' ? (
+                                    <div className="w-full h-full">{children}</div>
+                                ) : (
+                                    <div className="w-full h-full p-8 md:p-12 overflow-y-auto">
+                                        {loading ? (
+                                            <div className="space-y-4">
+                                                <div className="h-8 w-1/3 bg-white/5 animate-pulse rounded-lg" />
+                                                <div className="h-[400px] w-full bg-white/5 animate-pulse rounded-xl" />
+                                            </div>
+                                        ) : (
+                                            <CodeView
+                                                code={code}
+                                                language="tsx"
+                                                filename={componentPath?.split('/').pop() || 'Component.tsx'}
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
+                    </Frame>
+                </div>
 
-                            {/* Minimal floating viewport indicator */}
-                            <div className="mt-8 flex justify-between items-center px-4">
-                                <div className="flex items-center gap-4">
-                                    <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Width</span>
-                                    <span className="text-[10px] font-mono text-purple-400 font-bold">{viewportWidth}</span>
-                                </div>
-                                <div className="flex items-center gap-2 opacity-50">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                    <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Live Virtual Sync</span>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            key="code"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                        >
-                            {loading ? (
-                                <div className="space-y-4">
-                                    <div className="h-8 w-1/3 bg-white/5 animate-pulse rounded lg" />
-                                    <div className="h-[400px] w-full bg-white/5 animate-pulse rounded-xl" />
-                                </div>
-                            ) : (
-                                <CodeView code={code} language="tsx" filename={componentPath?.split('/').pop() || 'Component.tsx'} />
-                            )}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
             </div>
 
-            <footer className="mt-24 py-12 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 bg-slate-900 rounded flex items-center justify-center">
-                        <span className="text-[10px] font-bold text-white uppercase italic">L</span>
-                    </div>
-                    <span className="text-sm font-bold text-slate-900 italic">Luma UI</span>
-                </div>
-                <p className="text-xs text-slate-400">© 2026 Premium Component Collections.</p>
-            </footer>
         </div>
     );
 }

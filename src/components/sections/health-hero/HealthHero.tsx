@@ -25,17 +25,17 @@ export function HealthHero() {
                     >
                         <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full w-fit">
                             <ShieldCheck className="w-4 h-4 text-green-400" />
-                            <span className="text-white/80 text-xs font-bold uppercase tracking-widest">Medical Grade Security</span>
+                            <span className="text-white/80 text-xs font-bold uppercase tracking-widest">Next-Gen Cloud Infrastructure</span>
                         </div>
 
                         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.05] tracking-tight italic">
-                            Sexual Health <br />
-                            <span className="text-green-400">treatments</span> tailored <br />
-                            to your needs
+                            Engineered for <br />
+                            <span className="text-green-400">scalability</span> and <br />
+                            visual precision
                         </h1>
 
                         <p className="text-white/80 text-lg md:text-xl max-w-xl leading-relaxed">
-                            Join tens of thousands who have already transformed their lives. Medication kits tailored to your unique needs, delivered discreetly to your door.
+                            Automate your infrastructure with intelligent systems designed to handle modern workloads. Secure, reliable, and blazingly fast deployment pipelines.
                         </p>
                     </motion.div>
 
@@ -46,10 +46,10 @@ export function HealthHero() {
                         className="flex flex-col sm:flex-row items-center gap-4 mt-4"
                     >
                         <button className="w-full sm:w-auto bg-green-500 text-[#03453d] hover:bg-green-400 hover:scale-105 transition-all duration-300 rounded-full py-5 px-12 font-black text-lg cursor-pointer shadow-xl flex items-center justify-center gap-2">
-                            Get Started
+                            Deploy Now
                         </button>
                         <button className="w-full sm:w-auto bg-transparent text-white border-2 border-white/20 hover:bg-white/10 transition-all duration-300 rounded-full py-5 px-12 font-bold text-lg cursor-pointer shadow-none">
-                            See Eligibility
+                            Documentation
                         </button>
                     </motion.div>
 
@@ -60,27 +60,16 @@ export function HealthHero() {
                         className="grid grid-cols-2 md:grid-cols-3 gap-8 pt-12 border-t border-white/10 max-w-2xl"
                     >
                         <div>
-                            <p className="text-3xl font-bold text-white leading-none mb-2">48h</p>
-                            <p className="text-white/50 text-xs uppercase tracking-widest font-bold text-[10px]">Express delivery</p>
+                            <p className="text-3xl font-bold text-white leading-none mb-2">99.9%</p>
+                            <p className="text-white/50 text-xs uppercase tracking-widest font-bold text-[10px]">Guaranteed uptime</p>
                         </div>
                         <div>
-                            <p className="text-3xl font-bold text-white leading-none mb-2">10k+</p>
-                            <p className="text-white/50 text-xs uppercase tracking-widest font-bold text-[10px]">Active patients</p>
+                            <p className="text-3xl font-bold text-white leading-none mb-2">1M+</p>
+                            <p className="text-white/50 text-xs uppercase tracking-widest font-bold text-[10px]">Requests per second</p>
                         </div>
                     </motion.div>
                 </div>
             </div>
-
-            {/* Float Element */}
-            <motion.div
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="hidden lg:block absolute right-24 top-1/2 -translate-y-1/2 w-96 h-96 rounded-3xl bg-gradient-to-br from-green-400/20 to-transparent border border-white/10 backdrop-blur-xl p-8"
-            >
-                <div className="w-full h-full bg-white/5 rounded-2xl border border-white/5 flex items-center justify-center">
-                    <Plus className="w-24 h-24 text-green-400/20" strokeWidth={1} />
-                </div>
-            </motion.div>
         </section>
     );
 }

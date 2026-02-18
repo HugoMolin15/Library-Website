@@ -22,9 +22,11 @@ export const CodeView = ({ code, language, filename }: CodeViewProps) => {
     };
 
     return (
-        <div className="rounded-xl border border-gray-200 bg-[#1e1e1e] mb-8 relative">
-            <div className="flex items-center justify-between px-4 py-2 bg-[#252526] border-b border-white/5 rounded-t-xl">
-                <span className="text-xs font-mono text-gray-400">{filename}</span>
+        <div className="w-full relative">
+            <div className="flex items-center justify-between mb-6">
+                <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+                    <span className="text-[10px] font-bold font-mono text-gray-400 uppercase tracking-widest">{filename}</span>
+                </div>
                 <div className="relative">
                     <AnimatePresence>
                         {copied && (
@@ -32,7 +34,7 @@ export const CodeView = ({ code, language, filename }: CodeViewProps) => {
                                 initial={{ opacity: 0, y: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, y: -35, scale: 1 }}
                                 exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                                className="absolute left-1/2 -translate-x-1/2 bg-green-500 text-white text-[10px] font-black px-2 py-1 rounded shadow-lg whitespace-nowrap z-[100]"
+                                className="absolute left-1/2 -translate-x-1/2 bg-white text-black text-[10px] font-black px-2 py-1 rounded shadow-lg whitespace-nowrap z-[100]"
                             >
                                 COPIED!
                             </motion.div>
@@ -42,9 +44,9 @@ export const CodeView = ({ code, language, filename }: CodeViewProps) => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleCopy}
-                        className={`flex items-center gap-1.5 text-[10px] font-bold transition-all uppercase tracking-wider px-3 py-1.5 rounded cursor-pointer ${copied
-                            ? 'bg-green-500/10 text-green-400'
-                            : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10'
+                        className={`flex items-center gap-1.5 text-[10px] font-bold transition-all uppercase tracking-wider px-4 py-2 rounded-full cursor-pointer ${copied
+                            ? 'bg-green-500 text-white'
+                            : 'bg-white/10 text-white hover:bg-white/20'
                             }`}
                     >
                         {copied ? (
@@ -59,7 +61,7 @@ export const CodeView = ({ code, language, filename }: CodeViewProps) => {
                     </motion.button>
                 </div>
             </div>
-            <div className="max-h-[600px] overflow-auto scrollbar-hide rounded-b-xl">
+            <div className="overflow-visible">
                 <SyntaxHighlighter
                     language={language}
                     style={vscDarkPlus}
