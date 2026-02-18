@@ -13,60 +13,51 @@ const logos = [
 
 export function LogoSlider() {
     return (
-        <section className="w-full py-12 md:py-16 bg-[#F8F8FF] overflow-hidden relative">
-            {/* Edge Gradients for smooth fade */}
-            <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#F8F8FF] to-transparent z-10 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#F8F8FF] to-transparent z-10 pointer-events-none" />
+        <section className="w-full py-20 bg-white overflow-hidden relative group">
+            {/* Premium Edge Fades */}
+            <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-            <div className="logo-slider">
-                <div className="logos-slide">
+            <div className="flex w-fit animate-marquee pause-on-hover">
+                <div className="flex items-center gap-24 px-12">
                     {[...logos, ...logos].map((logo, index) => (
-                        <img key={`logo-1-${index}`} src={logo} alt="Partner" />
+                        <div key={`logo-1-${index}`} className="flex-shrink-0">
+                            <img
+                                src={logo}
+                                alt="Partner"
+                                className="h-12 md:h-16 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                            />
+                        </div>
                     ))}
                 </div>
-                <div className="logos-slide">
+                <div className="flex items-center gap-24 px-12">
                     {[...logos, ...logos].map((logo, index) => (
-                        <img key={`logo-2-${index}`} src={logo} alt="Partner" />
+                        <div key={`logo-2-${index}`} className="flex-shrink-0">
+                            <img
+                                src={logo}
+                                alt="Partner"
+                                className="h-12 md:h-16 w-auto object-contain grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-pointer"
+                            />
+                        </div>
                     ))}
                 </div>
             </div>
 
             <style jsx>{`
-                .logo-slider {
-                    display: flex;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    position: relative;
+                .animate-marquee {
+                    animation: marquee 30s linear infinite;
+                }
+                
+                .pause-on-hover:hover {
+                    animation-play-state: paused;
                 }
 
-                .logos-slide {
-                    display: flex;
-                    align-items: center;
-                    animation: slide 40s infinite linear;
-                    flex-shrink: 0;
-                }
-
-                .logos-slide img {
-                    width: 120px;
-                    height: 50px;
-                    margin: 0 40px;
-                    object-fit: contain;
-                }
-
-                @media (min-width: 768px) {
-                    .logos-slide img {
-                        width: 183px;
-                        height: 83px;
-                        margin: 0 45px;
-                    }
-                }
-
-                @keyframes slide {
+                @keyframes marquee {
                     from {
                         transform: translateX(0);
                     }
                     to {
-                        transform: translateX(-100%);
+                        transform: translateX(-50%);
                     }
                 }
             `}</style>
