@@ -14,12 +14,12 @@ const logos = [
 export function LogoSlider() {
     return (
         <section className="w-full py-24 bg-slate-50 overflow-hidden relative">
-            {/* Premium Edge Fades - Matched to slate-50 */}
+            {/* Premium Edge Fades */}
             <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none" />
             <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none" />
 
-            <div className="flex w-fit animate-marquee">
-                <div className="flex items-center gap-32 px-16">
+            <div className="flex animate-marquee whitespace-nowrap w-max">
+                <div className="flex items-center gap-32 pr-32">
                     {logos.map((logo, index) => (
                         <div key={`logo-1-${index}`} className="flex-shrink-0">
                             <img
@@ -30,22 +30,10 @@ export function LogoSlider() {
                         </div>
                     ))}
                 </div>
-                {/* Duplicate for seamless looping */}
-                <div className="flex items-center gap-32 px-16">
+                {/* Perfect Duplicate */}
+                <div className="flex items-center gap-32 pr-32">
                     {logos.map((logo, index) => (
                         <div key={`logo-2-${index}`} className="flex-shrink-0">
-                            <img
-                                src={logo}
-                                alt="Partner"
-                                className="h-10 md:h-14 w-auto object-contain grayscale opacity-30 contrast-125"
-                            />
-                        </div>
-                    ))}
-                </div>
-                {/* Third duplicate to ensure no overlap/gap on large screens */}
-                <div className="flex items-center gap-32 px-16">
-                    {logos.map((logo, index) => (
-                        <div key={`logo-3-${index}`} className="flex-shrink-0">
                             <img
                                 src={logo}
                                 alt="Partner"
@@ -58,7 +46,7 @@ export function LogoSlider() {
 
             <style jsx>{`
                 .animate-marquee {
-                    animation: marquee 40s linear infinite;
+                    animation: marquee 30s linear infinite;
                 }
                 
                 @keyframes marquee {
@@ -66,7 +54,7 @@ export function LogoSlider() {
                         transform: translateX(0);
                     }
                     to {
-                        transform: translateX(-33.33%);
+                        transform: translateX(-50%);
                     }
                 }
             `}</style>
