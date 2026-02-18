@@ -145,9 +145,9 @@ const Grainient: React.FC<GrainientProps> = ({
     centerX = 0.0,
     centerY = 0.0,
     zoom = 0.9,
-    color1 = '#FF9FFC',
-    color2 = '#5227FF',
-    color3 = '#B19EEF',
+    color1 = '#f9a8d4',
+    color2 = '#4f46e5',
+    color3 = '#ec4899',
     className = ''
 }) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -301,7 +301,7 @@ const Grainient: React.FC<GrainientProps> = ({
     return (
         <div
             ref={containerRef}
-            className={`relative h-full w-full overflow-hidden bg-[#0D1B1E] ${className}`.trim()}
+            className={`relative h-full w-full overflow-hidden ${className}`.trim()}
         />
     );
 };

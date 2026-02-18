@@ -143,10 +143,21 @@ export default function Home() {
                                     >
                                         {/* Full Bleed Image Placeholder */}
                                         <div className="absolute inset-0 bg-slate-50 flex items-center justify-center overflow-hidden group-hover:bg-white transition-colors">
-                                            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                            <span className="text-slate-200 group-hover:text-purple-100 transition-colors">
-                                                <MousePointer2 size={64} strokeWidth={1} />
-                                            </span>
+                                            {item.href === '/grainient' ? (
+                                                <div className="absolute inset-0 bg-gradient-to-r from-[#f9a8d4] via-[#ec4899] via-[#4f46e5] via-[#9333ea] to-[#c084fc] relative">
+                                                    {/* Grain Overlay */}
+                                                    <div className="absolute inset-0 opacity-20 contrast-125 brightness-100 mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+                                                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                                                </div>
+                                            ) : (
+                                                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                            )}
+
+                                            {item.href !== '/grainient' && (
+                                                <span className="text-slate-200 group-hover:text-purple-100 transition-colors">
+                                                    <MousePointer2 size={64} strokeWidth={1} />
+                                                </span>
+                                            )}
 
                                             {/* Action Badge */}
                                             <div className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full border border-slate-100 shadow-sm opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
