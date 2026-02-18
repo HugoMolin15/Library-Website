@@ -210,13 +210,13 @@ export const components: ComponentMetadata[] = [
     },
     {
         id: 'gradient-cta',
-        name: 'Gradient Reactive CTA',
-        description: 'Warp-speed animated background with floating icons that react to mouse movements.',
+        name: 'Floating Icons Hero',
+        description: 'Interactive hero section with icons that float and react to mouse movements, creating a premium software showcase.',
         icon: MousePointerClick,
         href: '/gradient-cta',
-        category: 'CTA',
+        category: 'Hero',
         new: true,
-        componentPath: 'src/components/ctas/gradient-cta'
+        componentPath: 'src/components/ui/floating-icons-hero-section.tsx'
     },
     {
         id: 'community-cta',

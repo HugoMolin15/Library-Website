@@ -42,9 +42,9 @@ export function FaqPremium() {
     };
 
     return (
-        <section className="w-full py-24 bg-[#F1F5F9]">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="flex flex-col lg:flex-row gap-8 lg:gap-24">
+        <section className="w-full min-h-screen flex items-center py-24 bg-[#F1F5F9]">
+            <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24">
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-24 w-full">
 
                     {/* Left Side: Title */}
                     <div className="w-full lg:w-1/3 text-left">

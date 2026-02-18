@@ -43,156 +43,158 @@ export function InteractiveAccordion() {
     const [hoveredId, setHoveredId] = useState<string | null>(null)
 
     return (
-        <div className="w-full max-w-xl mx-auto">
-            <div className="space-y-0">
-                {items.map((item, index) => {
-                    const isActive = activeId === item.id
-                    const isHovered = hoveredId === item.id
+        <div className="w-full min-h-[70vh] flex items-center justify-center py-24 px-6 md:px-12 lg:px-24">
+            <div className="w-full max-w-2xl mx-auto">
+                <div className="space-y-0">
+                    {items.map((item, index) => {
+                        const isActive = activeId === item.id
+                        const isHovered = hoveredId === item.id
 
-                    return (
-                        <div key={item.id}>
-                            <motion.button
-                                onClick={() => setActiveId(isActive ? null : item.id)}
-                                onMouseEnter={() => setHoveredId(item.id)}
-                                onMouseLeave={() => setHoveredId(null)}
-                                className="w-full group relative"
-                                initial={false}
-                            >
-                                <div className="flex items-center gap-6 py-5 px-1">
-                                    {/* Number with animated circle */}
-                                    <div className="relative flex items-center justify-center w-10 h-10">
-                                        <motion.div
-                                            className="absolute inset-0 rounded-full bg-black"
-                                            initial={false}
+                        return (
+                            <div key={item.id}>
+                                <motion.button
+                                    onClick={() => setActiveId(isActive ? null : item.id)}
+                                    onMouseEnter={() => setHoveredId(item.id)}
+                                    onMouseLeave={() => setHoveredId(null)}
+                                    className="w-full group relative"
+                                    initial={false}
+                                >
+                                    <div className="flex items-center gap-6 py-5 px-1">
+                                        {/* Number with animated circle */}
+                                        <div className="relative flex items-center justify-center w-10 h-10">
+                                            <motion.div
+                                                className="absolute inset-0 rounded-full bg-black"
+                                                initial={false}
+                                                animate={{
+                                                    scale: isActive ? 1 : isHovered ? 0.85 : 0,
+                                                    opacity: isActive ? 1 : isHovered ? 0.1 : 0,
+                                                }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 400,
+                                                    damping: 25,
+                                                }}
+                                            />
+                                            <motion.span
+                                                className="relative z-10 text-sm font-medium tracking-wide"
+                                                animate={{
+                                                    color: isActive ? "white" : "#6b7280", // var(--muted-foreground) -> gray-500
+                                                }}
+                                                transition={{ duration: 0.2 }}
+                                            >
+                                                {item.number}
+                                            </motion.span>
+                                        </div>
+
+                                        {/* Title */}
+                                        <motion.h3
+                                            className="text-2xl font-medium tracking-tight text-left"
                                             animate={{
-                                                scale: isActive ? 1 : isHovered ? 0.85 : 0,
-                                                opacity: isActive ? 1 : isHovered ? 0.1 : 0,
+                                                x: isActive || isHovered ? 4 : 0,
+                                                color: isActive
+                                                    ? "#000000"
+                                                    : isHovered
+                                                        ? "#000000"
+                                                        : "#6b7280",
                                             }}
                                             transition={{
                                                 type: "spring",
                                                 stiffness: 400,
-                                                damping: 25,
+                                                damping: 30,
                                             }}
-                                        />
-                                        <motion.span
-                                            className="relative z-10 text-sm font-medium tracking-wide"
-                                            animate={{
-                                                color: isActive ? "white" : "#6b7280", // var(--muted-foreground) -> gray-500
-                                            }}
-                                            transition={{ duration: 0.2 }}
                                         >
-                                            {item.number}
-                                        </motion.span>
+                                            {item.title}
+                                        </motion.h3>
+
+                                        {/* Animated indicator */}
+                                        <div className="ml-auto flex items-center gap-3">
+                                            <motion.div
+                                                className="flex items-center justify-center w-8 h-8"
+                                                animate={{ rotate: isActive ? 45 : 0 }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 300,
+                                                    damping: 20,
+                                                }}
+                                            >
+                                                <svg
+                                                    width="16"
+                                                    height="16"
+                                                    viewBox="0 0 16 16"
+                                                    fill="none"
+                                                    className="text-black"
+                                                    style={{ opacity: isActive || isHovered ? 1 : 0.4 }}
+                                                >
+                                                    <path
+                                                        d="M8 1V15M1 8H15"
+                                                        stroke="currentColor"
+                                                        strokeWidth="1.5"
+                                                        strokeLinecap="round"
+                                                    />
+                                                </svg>
+                                            </motion.div>
+                                        </div>
                                     </div>
 
-                                    {/* Title */}
-                                    <motion.h3
-                                        className="text-2xl font-medium tracking-tight text-left"
+                                    {/* Animated underline */}
+                                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-200 origin-left" />
+                                    <motion.div
+                                        className="absolute bottom-0 left-0 h-px bg-black origin-left w-full"
+                                        initial={{ scaleX: 0 }}
                                         animate={{
-                                            x: isActive || isHovered ? 4 : 0,
-                                            color: isActive
-                                                ? "#000000"
-                                                : isHovered
-                                                    ? "#000000"
-                                                    : "#6b7280",
+                                            scaleX: isActive ? 1 : isHovered ? 0.3 : 0,
                                         }}
                                         transition={{
                                             type: "spring",
-                                            stiffness: 400,
+                                            stiffness: 300,
                                             damping: 30,
                                         }}
-                                    >
-                                        {item.title}
-                                    </motion.h3>
+                                    />
+                                </motion.button>
 
-                                    {/* Animated indicator */}
-                                    <div className="ml-auto flex items-center gap-3">
+                                {/* Content */}
+                                <AnimatePresence mode="wait">
+                                    {isActive && (
                                         <motion.div
-                                            className="flex items-center justify-center w-8 h-8"
-                                            animate={{ rotate: isActive ? 45 : 0 }}
-                                            transition={{
-                                                type: "spring",
-                                                stiffness: 300,
-                                                damping: 20,
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{
+                                                height: "auto",
+                                                opacity: 1,
+                                                transition: {
+                                                    height: { type: "spring", stiffness: 300, damping: 30 },
+                                                    opacity: { duration: 0.2, delay: 0.1 },
+                                                },
                                             }}
+                                            exit={{
+                                                height: 0,
+                                                opacity: 0,
+                                                transition: {
+                                                    height: { type: "spring", stiffness: 300, damping: 30 },
+                                                    opacity: { duration: 0.1 },
+                                                },
+                                            }}
+                                            className="overflow-hidden"
                                         >
-                                            <svg
-                                                width="16"
-                                                height="16"
-                                                viewBox="0 0 16 16"
-                                                fill="none"
-                                                className="text-black"
-                                                style={{ opacity: isActive || isHovered ? 1 : 0.4 }}
+                                            <motion.p
+                                                className="pl-16 pr-12 py-6 text-gray-500 leading-relaxed text-left"
+                                                initial={{ y: -10 }}
+                                                animate={{ y: 0 }}
+                                                exit={{ y: -10 }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 300,
+                                                    damping: 25,
+                                                }}
                                             >
-                                                <path
-                                                    d="M8 1V15M1 8H15"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                />
-                                            </svg>
+                                                {item.content}
+                                            </motion.p>
                                         </motion.div>
-                                    </div>
-                                </div>
-
-                                {/* Animated underline */}
-                                <div className="absolute bottom-0 left-0 right-0 h-px bg-gray-200 origin-left" />
-                                <motion.div
-                                    className="absolute bottom-0 left-0 h-px bg-black origin-left w-full"
-                                    initial={{ scaleX: 0 }}
-                                    animate={{
-                                        scaleX: isActive ? 1 : isHovered ? 0.3 : 0,
-                                    }}
-                                    transition={{
-                                        type: "spring",
-                                        stiffness: 300,
-                                        damping: 30,
-                                    }}
-                                />
-                            </motion.button>
-
-                            {/* Content */}
-                            <AnimatePresence mode="wait">
-                                {isActive && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{
-                                            height: "auto",
-                                            opacity: 1,
-                                            transition: {
-                                                height: { type: "spring", stiffness: 300, damping: 30 },
-                                                opacity: { duration: 0.2, delay: 0.1 },
-                                            },
-                                        }}
-                                        exit={{
-                                            height: 0,
-                                            opacity: 0,
-                                            transition: {
-                                                height: { type: "spring", stiffness: 300, damping: 30 },
-                                                opacity: { duration: 0.1 },
-                                            },
-                                        }}
-                                        className="overflow-hidden"
-                                    >
-                                        <motion.p
-                                            className="pl-16 pr-12 py-6 text-gray-500 leading-relaxed text-left"
-                                            initial={{ y: -10 }}
-                                            animate={{ y: 0 }}
-                                            exit={{ y: -10 }}
-                                            transition={{
-                                                type: "spring",
-                                                stiffness: 300,
-                                                damping: 25,
-                                            }}
-                                        >
-                                            {item.content}
-                                        </motion.p>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    )
-                })}
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
         </div>
     )

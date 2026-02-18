@@ -33,7 +33,7 @@ const securityFeatures = [
 
 export function BentoGrid2() {
     return (
-        <section className="py-24 px-4 max-w-7xl mx-auto bg-gray-50">
+        <section className="py-24 px-4 max-w-7xl mx-auto">
 
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px]">
