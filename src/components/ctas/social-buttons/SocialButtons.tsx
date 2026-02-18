@@ -56,19 +56,21 @@ function GithubIcon() {
 
 const SocialButtons = () => {
     return (
-        <div className="flex flex-col gap-3 w-full max-w-sm">
-            <SocialButton>
-                <GoogleIcon />
-                Sign in with Google
-            </SocialButton>
-            <SocialButton>
-                <GithubIcon />
-                Sign in with GitHub
-            </SocialButton>
-            <SocialButton>
-                <XIcon />
-                Sign in with X
-            </SocialButton>
+        <div className="flex-1 flex flex-col items-center justify-center py-20">
+            <div className="flex flex-col gap-3 w-full max-w-sm px-6">
+                <SocialButton>
+                    <GoogleIcon />
+                    Sign in with Google
+                </SocialButton>
+                <SocialButton>
+                    <GithubIcon />
+                    Sign in with GitHub
+                </SocialButton>
+                <SocialButton>
+                    <XIcon />
+                    Sign in with X
+                </SocialButton>
+            </div>
         </div>
     );
 };
