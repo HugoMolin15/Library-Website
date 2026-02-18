@@ -4,7 +4,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layout, Box, Zap, Sparkles, Database, Shield, CreditCard, PanelsTopLeft, MousePointer2, Layers } from 'lucide-react';
+import { Layout, Box, Zap, Sparkles, Database, Shield, CreditCard, PanelsTopLeft, MousePointer2, Layers, Users } from 'lucide-react';
 
 const sidebarConfig = [
     {
@@ -56,6 +56,13 @@ const sidebarConfig = [
         ],
     },
     {
+        title: "Testimonials",
+        icon: Users,
+        items: [
+            { title: "Vertical Testimonials", href: "/vertical-testimonials" },
+        ],
+    },
+    {
         title: "CTAs",
         icon: Zap,
         items: [
@@ -97,7 +104,6 @@ const sidebarConfig = [
             { title: "Logo Slider", href: "/logo-slider" },
             { title: "Silk", href: "/silk" },
             { title: "Social Buttons", href: "/social-buttons" },
-            { title: "Vertical Testimonials", href: "/vertical-testimonials" },
         ],
     },
 ];
