@@ -32,7 +32,7 @@ export function FeatureSelection() {
     const [activeIndex, setActiveIndex] = useState(0);
 
     return (
-        <section className="w-full py-24 bg-[#F1F5F9]">
+        <section className="w-full flex-1 py-24 bg-[#F1F5F9] flex flex-col">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 

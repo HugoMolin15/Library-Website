@@ -4,19 +4,27 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layout, Box, Zap, Sparkles, Database, Shield, CreditCard, PanelsTopLeft, MousePointer2 } from 'lucide-react';
+import { Layout, Box, Zap, Sparkles, Database, Shield, CreditCard, PanelsTopLeft, MousePointer2, Layers } from 'lucide-react';
 
 const sidebarConfig = [
     {
         title: "Hero Sections",
         icon: PanelsTopLeft,
         items: [
-            { title: "Aurora", href: "/aurora" },
             { title: "Hero 1", href: "/hero-1" },
             { title: "Hero 2", href: "/hero-2" },
             { title: "Hero 3", href: "/hero-3" },
             { title: "Hero 4", href: "/hero-4" },
             { title: "Hero 5", href: "/hero-5" },
+        ],
+    },
+    {
+        title: "Backgrounds",
+        icon: Layers,
+        items: [
+            { title: "Aurora", href: "/aurora" },
+            { title: "Grainient", href: "/grainient" },
+            { title: "Dot Grid", href: "/dot-grid" },
         ],
     },
     {
@@ -44,6 +52,7 @@ const sidebarConfig = [
             { title: "Right Image Text", href: "/right-image-text" },
             { title: "Horizontal Text Image", href: "/horizontal-text-image" },
             { title: "Neural Defense", href: "/neural-defense" },
+            { title: "Alternating Carousel", href: "/alternating-carousel" },
         ],
     },
     {
@@ -89,9 +98,6 @@ const sidebarConfig = [
             { title: "Silk", href: "/silk" },
             { title: "Social Buttons", href: "/social-buttons" },
             { title: "Vertical Testimonials", href: "/vertical-testimonials" },
-            { title: "Grainient", href: "/grainient" },
-            { title: "Dot Grid", href: "/dot-grid" },
-            { title: "Alternating Carousel", href: "/alternating-carousel" },
         ],
     },
 ];
@@ -113,29 +119,24 @@ export default function Home() {
         <div className="space-y-12 pb-20 mt-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             {/* Tab System */}
             <div className="flex flex-wrap justify-center gap-3 py-12 sticky top-0 z-50 bg-white/80 backdrop-blur-xl">
-                <div className="flex flex-wrap items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/50">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.name}
-                            onClick={() => setActiveTab(tab.name)}
-                            className={`relative px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors duration-300 flex items-center gap-2.5 cursor-pointer outline-none ${activeTab === tab.name ? 'text-slate-900' : 'text-slate-400 hover:text-slate-600'
-                                }`}
-                        >
-                            {activeTab === tab.name && (
-                                <motion.div
-                                    layoutId="active-pill"
-                                    className="absolute inset-0 bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)]"
-                                    transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-                                />
-                            )}
-                            <span className="relative z-10">{tab.name}</span>
-                            <span className={`relative z-10 px-2 py-0.5 rounded-md text-[10px] tabular-nums transition-colors ${activeTab === tab.name ? 'bg-purple-50 text-purple-600' : 'bg-slate-200/40 text-slate-500'
-                                }`}>
-                                {tab.count}
-                            </span>
-                        </button>
-                    ))}
-                </div>
+                {tabs.map((tab) => (
+                    <button
+                        key={tab.name}
+                        onClick={() => setActiveTab(tab.name)}
+                        className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 flex items-center gap-2.5 cursor-pointer outline-none border ${activeTab === tab.name
+                            ? 'bg-slate-900 text-white border-slate-900 shadow-xl shadow-slate-200'
+                            : 'bg-white text-slate-400 border-slate-100 hover:border-slate-300 hover:text-slate-600'
+                            }`}
+                    >
+                        <span>{tab.name}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-[10px] tabular-nums transition-colors ${activeTab === tab.name
+                            ? 'bg-white/20 text-white'
+                            : 'bg-slate-100 text-slate-500'
+                            }`}>
+                            {tab.count}
+                        </span>
+                    </button>
+                ))}
             </div>
 
             {/* Component Gallery Groups */}
@@ -167,10 +168,10 @@ export default function Home() {
                                     {section.items.map((item, i) => (
                                         <Link key={i} href={item.href} className="group">
                                             <motion.div
-                                                className="relative bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-purple-100/50 hover:border-purple-200 transition-all duration-500 aspect-[16/10] flex flex-col"
+                                                className="relative bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-purple-100/50 hover:border-purple-200 transition-all duration-500 aspect-[16/10] flex flex-col p-3"
                                             >
-                                                {/* Full Bleed Image Placeholder */}
-                                                <div className="absolute inset-0 bg-slate-50 flex items-center justify-center overflow-hidden transition-colors">
+                                                {/* Image Container with Internal Padding */}
+                                                <div className="absolute inset-3 bg-slate-50 flex items-center justify-center overflow-hidden transition-colors rounded-2xl">
                                                     {item.href === '/grainient' || item.href === '/bento-grid-3' ? (
                                                         <div className="absolute inset-0 w-full h-full">
                                                             {/* Local Image Priority */}
@@ -199,9 +200,9 @@ export default function Home() {
                                                     )}
                                                 </div>
 
-                                                {/* Glassmorphism Title Overlay - Expands to full card on hover */}
-                                                <div className="absolute inset-x-0 bottom-0 p-4 z-20 h-full flex items-end group-hover:items-stretch transition-all duration-500">
-                                                    <div className="w-full h-14 group-hover:h-full bg-white/20 group-hover:bg-white/40 backdrop-blur-md group-hover:backdrop-blur-xl border border-white/20 rounded-2xl group-hover:rounded-none transition-all duration-500 flex items-center justify-center overflow-hidden shadow-lg">
+                                                {/* Glassmorphism Title Overlay - Expands to inner card bounds on hover */}
+                                                <div className="absolute inset-3 z-20 flex items-end group-hover:items-stretch transition-all duration-500 pointer-events-none">
+                                                    <div className="w-full h-12 group-hover:h-full bg-white/20 group-hover:bg-white/40 backdrop-blur-md group-hover:backdrop-blur-xl border border-white/20 rounded-xl group-hover:rounded-2xl transition-all duration-500 flex items-center justify-center overflow-hidden shadow-lg">
                                                         <h3 className="text-sm font-bold text-slate-900 group-hover:text-purple-600 transition-colors uppercase tracking-tight italic text-center px-4">
                                                             {item.title}
                                                         </h3>

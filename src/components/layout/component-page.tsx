@@ -50,7 +50,13 @@ function Frame({ children, width, onHeightChange, currentHeight, isCode }: {
                 overflow-x: hidden; overflow-y: auto; height: 100%;
                 font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
             }
-            #frame-root { width: 100%; min-height: 100%; }
+            #frame-root { 
+                width: 100%; 
+                height: 100%;
+                min-height: 100%; 
+                display: flex; 
+                flex-direction: column; 
+            }
             
             /* Hide scrollbar for all elements */
             *::-webkit-scrollbar {
@@ -264,10 +270,10 @@ export function ComponentPage({ title, description, children, componentPath }: C
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                                className="w-full h-full"
+                                className="w-full h-full flex flex-col flex-1"
                             >
                                 {activeTab === 'preview' ? (
-                                    <div className="w-full h-full">{children}</div>
+                                    <div className="w-full h-full flex flex-col flex-1">{children}</div>
                                 ) : (
                                     <div className="w-full h-full p-8 md:p-12 overflow-y-auto">
                                         {loading ? (
