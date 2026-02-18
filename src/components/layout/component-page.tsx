@@ -218,13 +218,13 @@ export function ComponentPage({ title, description, children, componentPath }: C
                 <div className="flex items-center bg-slate-100 p-1 rounded-xl">
                     <button
                         onClick={() => setActiveTab('preview')}
-                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all ${activeTab === 'preview' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'preview' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         Preview
                     </button>
                     <button
                         onClick={() => setActiveTab('code')}
-                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all ${activeTab === 'code' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all cursor-pointer ${activeTab === 'code' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         Code
                     </button>
@@ -245,7 +245,7 @@ export function ComponentPage({ title, description, children, componentPath }: C
                                 <button
                                     key={i}
                                     onClick={() => setViewportWidth(v.width)}
-                                    className={`p-2 rounded-lg transition-all ${viewportWidth === v.width ? 'bg-white text-purple-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                    className={`p-2 rounded-lg transition-all cursor-pointer ${viewportWidth === v.width ? 'bg-white text-purple-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
                                 >
                                     <v.icon size={18} />
                                 </button>
