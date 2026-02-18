@@ -4,7 +4,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layout, Box, Zap, Sparkles, Database, Shield, CreditCard, PanelsTopLeft, MousePointer2, Layers, Users } from 'lucide-react';
+import { Layout, Box, Zap, Sparkles, Database, Shield, CreditCard, PanelsTopLeft, MousePointer2, Layers, Users, Infinity } from 'lucide-react';
 
 const sidebarConfig = [
     {
@@ -25,6 +25,14 @@ const sidebarConfig = [
             { title: "Aurora", href: "/aurora" },
             { title: "Grainient", href: "/grainient" },
             { title: "Dot Grid", href: "/dot-grid" },
+            { title: "Silk", href: "/silk" },
+        ],
+    },
+    {
+        title: "Infinite Scroller",
+        icon: Infinity,
+        items: [
+            { title: "Logo Slider", href: "/logo-slider" },
         ],
     },
     {
@@ -101,8 +109,6 @@ const sidebarConfig = [
         icon: Sparkles,
         items: [
             { title: "Glass Icons", href: "/glass-icons" },
-            { title: "Logo Slider", href: "/logo-slider" },
-            { title: "Silk", href: "/silk" },
             { title: "Social Buttons", href: "/social-buttons" },
         ],
     },
